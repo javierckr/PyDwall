@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 ## Dynamic Wallpaper : Set wallpapers according to current time.
-## Created to work better with job schedulers (cron)
 
 ## ANSI Colors (FG & BG)
 RED="$(printf '\033[31m')"  GREEN="$(printf '\033[32m')"  ORANGE="$(printf '\033[33m')"  BLUE="$(printf '\033[34m')"
@@ -30,19 +29,19 @@ mkdir_dw() {
 ## Copy files
 copy_files() {
 	# copy images and scripts
-	sudo cp -r "$DIR"/images "$DES"/dynamic-wallpaper && sudo cp -r "$DIR"/dwall.sh "$DES"/dynamic-wallpaper
+	sudo cp -r "$DIR"/images "$DES"/dynamic-wallpaper && sudo cp -r "$DIR"/main.py "$DES"/dynamic-wallpaper
 	# make script executable
-	sudo chmod +x "$DES"/dynamic-wallpaper/dwall.sh
+	sudo chmod +x "$DES"/dynamic-wallpaper/main.py
 	# create link in bin directory
-	if [[ -L /usr/bin/dwall ]]; then
-		sudo rm /usr/bin/dwall
-		sudo ln -s "$DES"/dynamic-wallpaper/dwall.sh /usr/bin/dwall
+	if [[ -L /usr/local/bin/pydwall ]]; then
+		sudo ln -sf "$DES"/dynamic-wallpaper/main.py /usr/local/bin/pydwall
 	else
-		sudo ln -s "$DES"/dynamic-wallpaper/dwall.sh /usr/bin/dwall
+		sudo ln -s "$DES"/dynamic-wallpaper/main.py /usr/local/bin/pydwall
 	fi
-	echo -e ${GREEN}"[*] Installed Successfully. Execute 'dwall' to Run."${WHITE}
+	echo -e ${GREEN}"[*] Installed Successfully. Execute 'pydwall' to Run."${WHITE}
 }
 
 ## Install
+pip3 install -r requirements.txt
 mkdir_dw
 copy_files

@@ -44,7 +44,6 @@ def Dwall(args):
         pywal.export.color(colors, "xresources", os.environ["HOME"] + "/.Xresources")
         pywal.export.color(colors, "shell", os.environ["HOME"] + "/colors.sh")
 
-
         # Set the wallpaper.
         pywal.wallpaper.change(image)
         # Reload xrdb, i3 and polybar.
@@ -59,10 +58,23 @@ def Dwall(args):
 
     if args.pywal:
         pywall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
+        if args.cron:
+            cron(args.style + " -p")
         return "Wallpaper changed with pywal 😃"
     else:
         wall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
+        if args.cron:
+            cron(args.style)
         return "Wallpaper changed"
+
+
+## Creates the cron
+def cron(style):
+        f = open("/etc/cron.d/pydwall", "w")
+        f.write(
+            "0 * * * * " + os.getenv("SUDO_USER") + " /usr/local/bin/pydwall " + style
+        )
+        f.close()
 
 
 ## Main function
@@ -72,12 +84,18 @@ def main():
     parser.add_argument(
         "-p", "--pywal", action="store_true", help="Set wallpaper using pywal"
     )
+    parser.add_argument(
+        "-c", "--cron", action="store_true", help="Change wallpaper every hour. Need sudo!"
+    )
     args = parser.parse_args()
     try:
         print(Dwall(args))
+    except IOError as e:
+        if e.errno == 13:
+            sys.exit("You need root permissions to create a system cron file!")
     except:
-        print("Style not found ¯\_(ツ)_/¯")
         parser.print_usage()
+        sys.exit("Style not found ¯\_(ツ)_/¯")
 
 
 if __name__ == "__main__":
