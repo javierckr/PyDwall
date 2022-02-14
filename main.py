@@ -70,6 +70,7 @@ def Dwall(args):
 
     if args.pywal:
             pywall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
+            return "Wallpaper changed with pywal 😃"
     else:
         print("hola")
 
