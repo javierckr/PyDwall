@@ -59,20 +59,27 @@ def Dwall(args):
     if args.pywal:
         pywall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
         if args.cron:
-            cron(args.style + " -p")
+            cron(args.style + " -p", args.firefox)
         return "Wallpaper changed with pywal 😃"
     else:
         wall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
         if args.cron:
-            cron(args.style)
+            cron(args.style, args.firefox)
         return "Wallpaper changed"
 
 
 ## Creates the cron
-def cron(style):
+def cron(style, firefox):
     f = open("/etc/cron.d/pydwall", "w")
     f.write(
         "\n0 * * * * "
+        + os.getenv("SUDO_USER")
+        + " /usr/local/bin/pydwall "
+        + style
+        + " && /usr/local/bin/pywalfox update"
+        + "\n "
+        if firefox
+        else "\n0 * * * * "
         + os.getenv("SUDO_USER")
         + " /usr/local/bin/pydwall "
         + style
