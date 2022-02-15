@@ -23,8 +23,8 @@ rmdir_dw() {
 
 del_files() {
 	# remove link in bin directory
-	if [[ -L /usr/bin/dwall ]]; then
-		sudo rm /usr/bin/dwall
+	if [[ -L /usr/local/bin/pydwall ]]; then
+		sudo rm /usr/local/bin/pydwall
 	fi
 	echo -e ${GREEN}"[*] Uninstalled Successfully."${WHITE}
 }

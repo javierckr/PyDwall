@@ -70,11 +70,16 @@ def Dwall(args):
 
 ## Creates the cron
 def cron(style):
-        f = open("/etc/cron.d/pydwall", "w")
-        f.write(
-            "0 * * * * " + os.getenv("SUDO_USER") + " /usr/local/bin/pydwall " + style
-        )
-        f.close()
+    f = open("/etc/cron.d/pydwall", "w")
+    f.write(
+        "\n0 * * * * "
+        + os.getenv("SUDO_USER")
+        + " /usr/local/bin/pydwall "
+        + style
+        + "\n "
+    )
+    f.close()
+    os.chmod("/etc/cron.d/pydwall", 0o644)
 
 
 ## Main function
@@ -85,7 +90,16 @@ def main():
         "-p", "--pywal", action="store_true", help="Set wallpaper using pywal"
     )
     parser.add_argument(
-        "-c", "--cron", action="store_true", help="Change wallpaper every hour. Need sudo!"
+        "-c",
+        "--cron",
+        action="store_true",
+        help="Change wallpaper every hour. Need sudo!",
+    )
+    parser.add_argument(
+        "-f",
+        "--firefox",
+        action="store_true",
+        help="Only use with -c option, cron also updates pywalfox(pywal for firefox)",
     )
     args = parser.parse_args()
     try:
