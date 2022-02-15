@@ -72,14 +72,14 @@ def Dwall(args):
 def cron(style, firefox):
     f = open("/etc/cron.d/pydwall", "w")
     f.write(
-        "\n0 * * * * "
+        "DISPLAY=:0\n1 * * * * "
         + os.getenv("SUDO_USER")
         + " /usr/local/bin/pydwall "
         + style
         + " && /usr/local/bin/pywalfox update"
         + "\n "
         if firefox
-        else "\n0 * * * * "
+        else "DISPLAY=:0\n1 * * * * "
         + os.getenv("SUDO_USER")
         + " /usr/local/bin/pydwall "
         + style
