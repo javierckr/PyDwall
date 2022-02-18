@@ -1,7 +1,7 @@
 <!-- Dynamic Wallpaper -->
 
 
-# A simple ``bash`` script to set wallpapers according to current time, using cron
+# A simple ``python`` script to set wallpapers according to current time, using cron
 
 ![gif](https://raw.githubusercontent.com/adi1090x/files/master/dynamic-wallpaper/main.gif)
 
