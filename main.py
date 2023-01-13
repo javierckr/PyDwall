@@ -35,13 +35,15 @@ def Dwall(args):
         # Set it to true if the terminal you're using is
         # VTE based. (xfce4-terminal, termite, gnome-terminal.)
         #        pywal.sequences.send(colors, False)
-        pywal.sequences.send(colors)
+        # pywal.sequences.send(colors)
 
         # Export all template files.
         pywal.export.every(colors)
 
         # Export individual template files.
-        pywal.export.color(colors, "xresources", os.environ["HOME"] + "/.Xresources")
+        pywal.export.color(
+            colors, "xresources", os.environ["HOME"] + "/.Xresources"
+        )
         pywal.export.color(colors, "shell", os.environ["HOME"] + "/colors.sh")
 
         # Set the wallpaper.
@@ -57,7 +59,9 @@ def Dwall(args):
         pywal.wallpaper.change(image)
 
     if args.pywal:
-        pywall_set(glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0])
+        pywall_set(
+            glob.glob(wdir + "/" + args.style + "/" + str(now) + "*")[0]
+        )
         if args.cron:
             cron(args.style + " -p", args.firefox)
         return "Wallpaper changed with pywal 😃"
